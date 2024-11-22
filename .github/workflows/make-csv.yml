@@ -1,0 +1,33 @@
+name: make-csv
+
+on: [push]
+env:
+  OPENROCKET_DOWNLOAD: https://github.com/openrocket/openrocket/releases/download/release-23.09/OpenRocket-23.09.jar
+  OPENROCKET_JAR: OpenRocket-23.09.jar
+  OPENROCKET_FILE: IREC_2025_M6000ST-0.ork
+  OUTPUT_DIRECTORY: CSVs
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repo content
+        uses: actions/checkout@v2 # checkout the repository content to github runner.
+        
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.12
+          run: |
+            python -m pip install --upgrade pip
+            pip install orhelper
+      - name: Download Openrocket
+        run: |
+          wget "${OPENROCKET_DOWNLOAD}" -O "${OPENROCKET_JAR}"
+      - name: Export CSVs
+        run: |
+          ./scripts/export_all.py "${OPENROCKET_JAR}" "${OPENROCKET_FILE}" "${OUTPUT_DIRECTORY}"
+      - name: See whats up
+        run: |
+          ls -la
