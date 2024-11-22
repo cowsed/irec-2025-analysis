@@ -1,4 +1,4 @@
-name: make-csv
+name: Make CSVs
 
 on: [push]
 env:
@@ -10,18 +10,17 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: checkout repo content
+      - name: Checkout Repo Content
         uses: actions/checkout@v2 # checkout the repository content to github runner.
         
-      - name: setup python
+      - name: Setup Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.12
-          run: |
-            python -m pip install --upgrade pip
-            pip install orhelper
+      - name: Install Openrocket Library
+        run: |
+          pip install orhelper
       - name: Download Openrocket
         run: |
           wget "${OPENROCKET_DOWNLOAD}" -O "${OPENROCKET_JAR}"
