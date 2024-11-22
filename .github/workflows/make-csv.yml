@@ -5,7 +5,6 @@ env:
   OPENROCKET_DOWNLOAD: https://github.com/openrocket/openrocket/releases/download/release-23.09/OpenRocket-23.09.jar
   OPENROCKET_JAR: OpenRocket-23.09.jar
   OPENROCKET_FILE: IREC_2025_M6000ST-0.ork
-  OUTPUT_DIRECTORY: CSVs
 
 jobs:
   build:
@@ -29,20 +28,20 @@ jobs:
       - name: Install Openrocket Library
         run: |
           pip install orhelper
-
-      - name: Cache Openrocket
-        uses: actions/cache@v4.1.2
-        with:
-          # A list of files, directories, and wildcard patterns to cache and restore
-          path: "${OPENROCKET_JAR}"
-          key: "${OPENROCKET_DOWNLOAD}"
                     
       - name: Download Openrocket
         run: |
           wget "${OPENROCKET_DOWNLOAD}" -O "${OPENROCKET_JAR}"
       - name: Export CSVs
         run: |
-          ./scripts/export_all.py "${OPENROCKET_JAR}" "${OPENROCKET_FILE}" "${OUTPUT_DIRECTORY}"
+          ./scripts/export_all.py "${OPENROCKET_JAR}" "${OPENROCKET_FILE}" CSVs
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: openrocket-sims
+          path: CSVs
+
       - name: See whats up
         run: |
           ls -lah
