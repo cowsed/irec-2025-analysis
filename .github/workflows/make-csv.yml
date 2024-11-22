@@ -37,11 +37,12 @@ jobs:
           ./scripts/export_all.py "${OPENROCKET_JAR}" "${OPENROCKET_FILE}" CSVs
 
       - name: Archive production artifacts
+        id:  csv-upload-step
         uses: actions/upload-artifact@v4
         with:
           name: openrocket-sims
           path: CSVs
+          overwrite: true
 
-      - name: See whats up
-        run: |
-          ls -lah
+      - name: Output artifact ID
+        run:  echo 'Artifact ID is ${{ steps.csv-upload-stepstep.outputs.artifact-id }}'
