@@ -21,16 +21,16 @@ with orhelper.OpenRocketInstance(jar_path=orJarPath, log_level='ALL') as instanc
     CSVExport = orp.file.CSVExport
 
     doc = orh.load_doc(rocketFile)
-    numSims = doc.getSimulationCount()
-    print(f'Generating Data for {numSims} simulation(s)')
+    num_sims = doc.getSimulationCount()
+    print(f'Generating Data for {num_sims} simulation(s)')
     print(f'Saving results to {outputDir}')
 
     os.makedirs(outputDir, exist_ok=True)
 
     sims = doc.getSimulations()
     for sim in sims:
-        simName = str(sim.getName())
-        print(f"Running '{simName}'")
+        sim_name = str(sim.getName())
+        print(f"Running '{sim_name}'")
         orh.run_simulation(sim)
 
         branch = sim.getSimulatedData().getBranch(0)
@@ -42,7 +42,7 @@ with orhelper.OpenRocketInstance(jar_path=orJarPath, log_level='ALL') as instanc
         units = [datatype.getUnitGroup().getSIUnit()
                  for datatype in flight_data_types]
 
-        path = os.path.join(outputDir, simName+'.csv')
+        path = os.path.join(outputDir, sim_name + '.csv')
 
         fos = FileOutputStream(path)
         decimalPoints = 6
