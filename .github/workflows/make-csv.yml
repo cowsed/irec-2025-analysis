@@ -2,7 +2,7 @@ name: Make CSVs
 
 on: [push]
 permissions: 
-  constents: write
+  contents: write
 env:
   OPENROCKET_DOWNLOAD: https://github.com/openrocket/openrocket/releases/download/release-23.09/OpenRocket-23.09.jar
   OPENROCKET_JAR: OpenRocket-23.09.jar
