@@ -45,4 +45,4 @@ jobs:
           ./scripts/export_all.py "${OPENROCKET_JAR}" "${OPENROCKET_FILE}" "${OUTPUT_DIRECTORY}"
       - name: See whats up
         run: |
-          ls -la
+          ls -lah
