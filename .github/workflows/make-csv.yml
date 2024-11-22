@@ -1,6 +1,8 @@
 name: Make CSVs
 
 on: [push]
+permissions: 
+  constents: write
 env:
   OPENROCKET_DOWNLOAD: https://github.com/openrocket/openrocket/releases/download/release-23.09/OpenRocket-23.09.jar
   OPENROCKET_JAR: OpenRocket-23.09.jar
@@ -36,13 +38,10 @@ jobs:
         run: |
           ./scripts/export_all.py "${OPENROCKET_JAR}" "${OPENROCKET_FILE}" CSVs
 
-      - name: Archive production artifacts
-        id:  csv-upload-step
-        uses: actions/upload-artifact@v4
-        with:
-          name: openrocket-sims
-          path: CSVs
-          overwrite: true
-
-      - name: Output artifact ID
-        run:  echo 'Artifact ID is ${{ steps.csv-upload-stepstep.outputs.artifact-id }}'
+      - name: Commit CSVs
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add CSVs
+          git commit -m "generated"
+          git push
