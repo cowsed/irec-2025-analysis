@@ -25,9 +25,18 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.12
+          
       - name: Install Openrocket Library
         run: |
           pip install orhelper
+
+      - name: Cache Openrocket
+        uses: actions/cache@v4.1.2
+        with:
+          # A list of files, directories, and wildcard patterns to cache and restore
+          path: "${OPENROCKET_JAR}"
+          key: "${OPENROCKET_DOWNLOAD}"
+                    
       - name: Download Openrocket
         run: |
           wget "${OPENROCKET_DOWNLOAD}" -O "${OPENROCKET_JAR}"
